@@ -29,13 +29,6 @@
     "sharedGlobals": []
   },
   "stacks": {
-    "config": {
-      "cloud": {
-        "platform": "azure",
-        "region": "euw"
-      },
-      "pipeline": "azdo"
-    },
     "executedGenerators": {
       "project": {
         "host": ["NextInit"]
