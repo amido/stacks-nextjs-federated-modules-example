@@ -1,5 +1,3 @@
-import styles from './index.module.css';
-
 export function Index() {
   /*
    * Replace the elements below with your own.
@@ -7,13 +5,13 @@ export function Index() {
    * Note: The corresponding styles are in the ./index.css file.
    */
   return (
-    <div className={styles.page}>
+    <div>
       <div className="wrapper">
         <div className="container">
           <div id="welcome">
             <h1>
               <span> Hello there, </span>
-              Welcome host 👋
+              Welcome Host Module👋
             </h1>
           </div>
 

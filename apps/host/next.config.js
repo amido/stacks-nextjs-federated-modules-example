@@ -1,22 +1,29 @@
-// @ts-check
+const NextFederationPlugin = require('@module-federation/nextjs-mf');
+const { withNx } = require('@nrwl/next/plugins/with-nx');
+const path = require('node:path');
 
-// eslint-disable-next-line @typescript-eslint/no-var-requires
-const { composePlugins, withNx } = require('@nx/next');
+const remotes = (isServer) => {
+  const location = isServer ? 'ssr' : 'chunks';
 
-/**
- * @type {import('@nx/next/plugins/with-nx').WithNxOptions}
- * */
-const nextConfig = {
-  nx: {
-    // Set this to true if you would like to use SVGR
-    // See: https://github.com/gregberge/svgr
-    svgr: false,
-  },
+  return {
+    header: `header@${process.env.STACKS_PUBLIC_HEADER_URL}/_next/static/${location}/remoteEntry.js`,
+  };
 };
+module.exports = withNx({
+  output: 'standalone',
+  experimental: {
+    outputFileTracingRoot: path.join(__dirname, '../../'),
+    scrollRestoration: true,
+  },
+  webpack(config, options) {
+    config.plugins.push(
+      new NextFederationPlugin({
+        name: 'host',
+        filename: 'static/chunks/remoteEntry.js',
+        remotes: remotes(options.isServer),
+      })
+    );
 
-const plugins = [
-  // Add more Next.js plugins to this list if needed.
-  withNx,
-];
-
-module.exports = composePlugins(...plugins)(nextConfig);
+    return config;
+  },
+});
